@@ -15,7 +15,7 @@ ______________________________
 Webpage setup:
 **Run**
 - npm install real-router-dom@5
-- hgi
+- npx json-server --watch data/db.json --port 8000
 
 - npm start
 
