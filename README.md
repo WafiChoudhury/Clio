@@ -7,7 +7,7 @@
 **Tiktok**:
 - TikTok to transcript: https://www.tiktoktotext.com/
 
-- TikTok API Embed Resource: https://developers.tiktok.com/doc/embed-videos/
+- TikTok API Resource: https://www.ensembledata.com/apis/docs#tag/Tiktok/operation/post_info_tt_post_info_get
+
 
     
-
