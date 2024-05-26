@@ -47,7 +47,8 @@ def download_to_gcs(urls, bucket_name):
     for url in urls:
 
         #we should be able to used the passed in url, but for some reason does not work
-        url = "https://v77.tiktokcdn.com/2fb45bd182bf5ff9668976002458acdb/6653197a/video/tos/alisg/tos-alisg-pve-0037c001/ogVtIoIGFeeDeMQQlMyRI3nEyDLhwjAonDCaRA/?a=1233&bti=NEBzNTY6QGo6OjZALnAjNDQuYCMxNDNg&ch=0&cr=13&dr=0&er=0&lr=all&net=0&cd=0%7C0%7C0%7C&cv=1&br=2232&bt=1116&cs=0&ds=6&ft=pfEtKMXK8Zmo0.Moq-4jVf00PTFrKsd.&mime_type=video_mp4&qs=4&rc=Njs2Ozg8OjdkNWZoaWU8PEBpanFpcG05cjtzczMzODczNEAuY15jMzMxXl8xM2I0Li02YSNncS80MmRjXzVgLS1kMTFzcw%3D%3D&vvpl=1&l=20240526051339636C21AD3665B4A1790B&btag=e00088000&cc=13"
+        url = url.strip('""')
+        url = url.strip("")
         response = requests.get(url)
         if response.status_code == 200:
             blob = bucket.blob(os.path.basename(url))
