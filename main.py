@@ -2,8 +2,7 @@ import requests
 import json
 
 
-def search_posts():
-
+def get_started():
 
     root = "https://www.ensembledata.com/apis"
     endpoint = "/tt/keyword/search"
@@ -24,11 +23,8 @@ def search_posts():
 
     loaded = json.loads(json.dumps(res.json()))
 
-    print(data)
-    print(loaded)
 
     for i in range (0,len(loaded['data']['data'])):
-     print(json.dumps(res.json()['data']['data'][i]['aweme_info']['video']['play_addr']['url_list'][0]))
+        print(json.dumps(res.json()['data']['data'][i]['aweme_info']['video']['play_addr']['url_list'][0]))
 
-     
-search_posts()
+get_started()
