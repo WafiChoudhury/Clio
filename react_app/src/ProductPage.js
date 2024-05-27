@@ -1,6 +1,9 @@
 import * as React from "react";
 
 import {Link} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
+
 
 
 function SocialMediaButton({ platform, style, children }) {
@@ -12,6 +15,10 @@ function SocialMediaButton({ platform, style, children }) {
 }
 
 function MyComponent() {
+  const location = useLocation();
+  const { videoUrls } = location.state || { videoUrls: [] };
+
+
   const platforms = [
     { platform: 'TikTok', style: 'platform-button platform-tiktok' },
     { platform: 'YouTube', style: 'platform-button platform-youtube' },
@@ -53,6 +60,24 @@ function MyComponent() {
           </form>
         </section>
         <p className="note">*click to see relevant reviews*</p>
+
+
+ {/* /////////////////////////////////////////////////////////////////////////////////////////////////// */}
+
+        {/* TESTING URL */}
+        <ul>
+        {videoUrls.map((url, index) => (
+          <li key={index}>
+            <a href={url.substring(1, url.length-1)} target="_blank" rel="noopener noreferrer">
+              
+              Video {index}
+            </a>
+          </li>
+        ))}
+      </ul>
+ {/* /////////////////////////////////////////////////////////////////////////////////////////////////// */}
+
+
         <nav className="platforms-container">
           {platforms.map(({ platform, style }) => (
             <SocialMediaButton key={platform} platform={platform} style={style}>

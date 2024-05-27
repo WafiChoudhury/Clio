@@ -12,7 +12,7 @@
 
 ______________________________
 
-Webpage setup:
+# Webpage setup:
 **Run**
 - npm install real-router-dom@5
 - npx json-server --watch data/db.json --port 8000
@@ -23,3 +23,7 @@ Webpage setup:
 **Details**
 - When you search for a product the query should appear in  data/db.json
     
+# Flask setup:
+- source venv/bin/activate      
+- pip install -r requirements.txt 
+- venv/bin/python app.py
