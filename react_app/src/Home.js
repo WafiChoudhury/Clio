@@ -9,31 +9,56 @@ function MyComponent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isPending, setIsPending] = useState(false);
   const history = useHistory();
-  const handleSubmit = (e) =>{
-    e.preventDefault();
-    const queryObject ={searchQuery};
-    setIsPending(true);
-    fetch('http://localhost:8000/searchQueries',{
-      method: 'POST',
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(queryObject)
+  // const handleSubmit = (e) =>{
+  //   e.preventDefault();
+  //   const queryObject ={searchQuery};
+  //   setIsPending(true);
+  //   fetch('http://localhost:8000/searchQueries',{
+  //     method: 'POST',
+  //     headers: {"Content-Type": "application/json"},
+  //     body: JSON.stringify(queryObject)
 
-      }
-    ).then(() => {
-      console.log("new  ");
-      setIsPending(false);
-      history.push('/ProductPage');
-    })
+  //     }
+  //   ).then(() => {
+  //     console.log("new  ");
+  //     setIsPending(false);
+  //     history.push('/ProductPage');
+  //   })
     
-  }
+  // }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const queryObject = { searchQuery };
+    setIsPending(true);
+
+    fetch('http://127.0.0.1:5000/searchQueries', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(queryObject)
+    }).then(response => response.json())
+      .then(data => {
+        console.log("Received video URLs:", data.videoUrls);
+        setIsPending(false);
+        history.push('/ProductPage', { videoUrls: data.videoUrls });
+      })
+      .catch(error => {
+        console.error("Error fetching video URLs:", error);
+        setIsPending(false);
+      });
+  };
   
   return (
 
     <>
       <main className="main">
         <section className="content">
-          <header className="header">clio</header>
-          <h1 className="title">Any Product. Every Review. One Platform.</h1>
+          <header className="header">QUETZAL</header>
+          <h1 className="title">
+  Any Product. Every Review.<br />
+  One Platform.
+</h1>
+
+          
          
          
 
@@ -55,7 +80,7 @@ function MyComponent() {
 
 
               id="productSearch"
-              placeholder="eg. hydroflask 40 oz."
+              placeholder="e.g. hydroflask 40 oz."
               aria-label="Search for a product"
             />
 
@@ -135,18 +160,20 @@ function MyComponent() {
           text-align: center;
           letter-spacing: -0.24px;
           align-self: stretch;
-          margin-top: 37px;
+          margin-top: 47px;
+          line-height: 1.2;
+          
           font-size: 24px;
           font-family: 'Inter', sans-serif;
         }
-        @media (max-width: 991px) {
+        @media (max-width: 99100px) {
           .title {
-            font-size: 20px;
+            font-size: 30px;
           }
         }
         .search-form {
           display: flex;
-          margin-top: 15px;
+          margin-top: 0px;
           width: 400px;
           max-width: 100%;
           flex-direction: column;
