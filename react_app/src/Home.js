@@ -124,6 +124,8 @@ function MyComponent() {
           letter-spacing: -1.28px;
           font-size: 128px;
           font-family: 'Inter', sans-serif;
+          margin-bottom: 20px
+
         }
         @media (max-width: 991px) {
           .header {
