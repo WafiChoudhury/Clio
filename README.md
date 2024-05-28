@@ -12,6 +12,17 @@
 
 ______________________________
 
+# Bundled setup:
+**Terminal 1**
+- pip3 install -r requirements.txt 
+- python3 app.py
+
+**Terminal 2**
+- npm run server_bundle_start
+  
+**Terminal 3**
+- npm start
+
 # Webpage setup:
 **Run**
 - npm install real-router-dom@5
