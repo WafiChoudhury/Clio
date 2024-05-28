@@ -1,8 +1,11 @@
-
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors');
 const app = express();
 const port = 3001;
+
+// Use cors middleware
+app.use(cors());
 
 app.get('/oembed', async (req, res) => {
   const { url } = req.query;
