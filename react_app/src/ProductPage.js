@@ -1,37 +1,43 @@
-import * as React from "react";
+import React from 'react';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 
-import {Link} from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-
-
-
-
-function SocialMediaButton({ platform, style, children }) {
+function SocialMediaButton({ platform, style, children, onClick }) {
   return (
-    <div className={style} tabIndex="0" role="button">
+    <div className={style} tabIndex="0" role="button" onClick={onClick}>
       {children}
     </div>
-  )
+  );
 }
 
-function MyComponent() {
+function ProductPage() {
   const location = useLocation();
-  const { videoUrls } = location.state || { videoUrls: [] };
-
+  const history = useHistory();
+  const { videoUrls, searchQuery } = location.state || { videoUrls: [], searchQuery: '' };
 
   const platforms = [
     { platform: 'TikTok', style: 'platform-button platform-tiktok' },
     { platform: 'YouTube', style: 'platform-button platform-youtube' },
     { platform: 'Amazon', style: 'platform-button platform-amazon' },
     { platform: 'Reddit', style: 'platform-button platform-reddit' },
-  ]
+  ];
+
+  const handleRedditButtonClick = () => {
+    fetch('http://127.0.0.1:5000/redditPages', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ searchQuery })
+    }).then(response => response.json())
+      .then(data => {
+        history.push('/RedditPage', { redditPages: data.redditPages, searchQuery });
+      })
+      .catch(error => {
+        console.error("Error fetching Reddit pages:", error);
+      });
+  };
 
   const handleNewSearch = () => {
-    fetch('http://localhost:8000/searchQueries/', {
-        method: 'DELETE'
-    })
-    
-};
+    fetch('http://localhost:8000/searchQueries/', { method: 'DELETE' });
+  };
 
   return (
     <>
@@ -60,27 +66,18 @@ function MyComponent() {
           </form>
         </section>
         <p className="note">*click to see relevant reviews*</p>
-
-
- {/* /////////////////////////////////////////////////////////////////////////////////////////////////// */}
-
-        {/* TESTING URL */}
         <ul>
-        {videoUrls.map((url, index) => (
-          <li key={index}>
-            <a href={url.substring(1, url.length-1)} target="_blank" rel="noopener noreferrer">
-              
-              Video {index}
-            </a>
-          </li>
-        ))}
-      </ul>
- {/* /////////////////////////////////////////////////////////////////////////////////////////////////// */}
-
-
+          {videoUrls.map((url, index) => (
+            <li key={index}>
+              <a href={url.substring(1, url.length-1)} target="_blank" rel="noopener noreferrer">
+                Video {index}
+              </a>
+            </li>
+          ))}
+        </ul>
         <nav className="platforms-container">
           {platforms.map(({ platform, style }) => (
-            <SocialMediaButton key={platform} platform={platform} style={style}>
+            <SocialMediaButton key={platform} platform={platform} style={style} onClick={platform === 'Reddit' ? handleRedditButtonClick : null}>
               {platform}
             </SocialMediaButton>
           ))}
@@ -257,7 +254,7 @@ function MyComponent() {
         }
       `}</style>
     </>
-  )
+  );
 }
 
-export default MyComponent;
+export default ProductPage;

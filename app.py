@@ -2,9 +2,40 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import json
+from googlesearch import search
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
+
+
+
+
+
+def get_reddit_pages(query):
+    try:
+        # Perform Google search and get first four results
+        search_results = search(query + "review reddit", num=4, stop=4, pause=2)
+        
+        # Filter out URLs that are Reddit pages
+        reddit_pages = [url for url in search_results if "reddit.com" in url]
+        return reddit_pages
+    except Exception as e:
+        print("An error occurred:", str(e))
+        return None
+
+# Add this function to your existing Flask app
+
+@app.route('/redditPages', methods=['POST'])
+def handle_reddit_pages():
+    data = request.json
+    search_term = data['searchQuery']
+    reddit_pages = get_reddit_pages(search_term)
+    return jsonify({'redditPages': reddit_pages})
+
+
+
+
+
 
 def video_urls(search_term):
     root = "https://www.ensembledata.com/apis"
@@ -38,3 +69,4 @@ def handle_search_query():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

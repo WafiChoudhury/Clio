@@ -1,31 +1,11 @@
-import * as React from 'react';
-import {Link} from 'react-router-dom';
-import ProductPage from './ProductPage';
-import{useState} from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-
-function MyComponent() {
+function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isPending, setIsPending] = useState(false);
   const history = useHistory();
-  // const handleSubmit = (e) =>{
-  //   e.preventDefault();
-  //   const queryObject ={searchQuery};
-  //   setIsPending(true);
-  //   fetch('http://localhost:8000/searchQueries',{
-  //     method: 'POST',
-  //     headers: {"Content-Type": "application/json"},
-  //     body: JSON.stringify(queryObject)
 
-  //     }
-  //   ).then(() => {
-  //     console.log("new  ");
-  //     setIsPending(false);
-  //     history.push('/ProductPage');
-  //   })
-    
-  // }
   const handleSubmit = (e) => {
     e.preventDefault();
     const queryObject = { searchQuery };
@@ -37,84 +17,42 @@ function MyComponent() {
       body: JSON.stringify(queryObject)
     }).then(response => response.json())
       .then(data => {
-        console.log("Received video URLs:", data.videoUrls);
         setIsPending(false);
-        history.push('/ProductPage', { videoUrls: data.videoUrls });
+        history.push('/ProductPage', { videoUrls: data.videoUrls, searchQuery });
       })
       .catch(error => {
         console.error("Error fetching video URLs:", error);
         setIsPending(false);
       });
   };
-  
-  return (
 
+  return (
     <>
       <main className="main">
         <section className="content">
           <header className="header">QUETZAL</header>
           <h1 className="title">
-  Any Product. Every Review.<br />
-  One Platform.
-</h1>
-
-          
-         
-         
-
-          <form className="search-form" onSubmit= {handleSubmit}>
-            <label
-              htmlFor="productSearch"
-              className="visually-hidden"
-            >
-              Product Search
-            </label>
-
-
+            Any Product. Every Review.<br />
+            One Platform.
+          </h1>
+          <form className="search-form" onSubmit={handleSubmit}>
+            <label htmlFor="productSearch" className="visually-hidden">Product Search</label>
             <input
               className="search-input"
               type="text"
               required
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-
-
               id="productSearch"
               placeholder="e.g. hydroflask 40 oz."
               aria-label="Search for a product"
             />
-
-            
-          
-            {!isPending && <button
-            
-            className="search-button"
-            type="submit"
-            aria-label="search"
-          >
-             search
-
-
-          </button>}
-
-          {/* LOADiNG */}
-          {isPending && <button
-            
-            className="search-button"
-            type="submit"
-            aria-label="search"
-          >
-             loading..
-
-          </button>}
-            
-
-
+            <button className="search-button" type="submit" aria-label="search">
+              {isPending ? 'Loading...' : 'Search'}
+            </button>
           </form>
         </section>
       </main>
-
-
       <style jsx>{`
         .main {
           background-color: #fff;
@@ -229,5 +167,4 @@ function MyComponent() {
   );
 }
 
-export default MyComponent;
-
+export default HomePage;
