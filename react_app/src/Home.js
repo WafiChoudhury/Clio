@@ -53,7 +53,13 @@ function HomePage() {
           </form>
         </section>
       </main>
-      <style jsx>{`
+      <style jsx = "true">
+
+
+
+
+        
+        {`
         .main {
           background-color: #fff;
           display: flex;

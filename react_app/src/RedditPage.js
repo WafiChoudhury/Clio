@@ -67,7 +67,22 @@ function RedditPage() {
   }, [redditPages, location.state, history]);
 
   return (
-    <div>
+    <div style={{ position: 'relative', textAlign: 'center' }}>
+      <button
+        onClick={() => history.goBack()}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          padding: '10px',
+          fontSize: '16px',
+          cursor: 'pointer',
+          
+     
+        }}
+      >
+        Back
+      </button>
       <h1>Reddit Results for "{searchQuery}"</h1>
       {error && <p>Error loading embeds: {error.message}</p>}
       {embeds.map((embed, index) => (
