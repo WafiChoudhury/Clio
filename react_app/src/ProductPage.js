@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
-function SocialMediaButton({ platform, style, children, onClick }) {
+function SocialMediaButton({ platform, style, children, onClick, isLoading }) {
   return (
     <div className={style} tabIndex="0" role="button" onClick={onClick}>
-      {children}
+      {isLoading ? 'Loading...' : children}
     </div>
   );
 }
@@ -16,6 +15,7 @@ function ProductPage() {
   const { videoUrls, searchQuery } = location.state || { videoUrls: [], searchQuery: '' };
 
   const [loading, setLoading] = useState(false);
+  const [loadingPlatform, setLoadingPlatform] = useState('');
 
   const platforms = [
     { platform: 'TikTok', style: 'platform-button platform-tiktok' },
@@ -26,6 +26,7 @@ function ProductPage() {
 
   const handleRedditButtonClick = () => {
     setLoading(true);
+    setLoadingPlatform('Reddit');
     fetch('http://127.0.0.1:5000/redditPages', {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
@@ -39,41 +40,37 @@ function ProductPage() {
       })
       .finally(() => {
         setLoading(false);
+        setLoadingPlatform('');
       });
   };
 
-
-
   const handleYouTubeButtonClick = () => {
     setLoading(true);
+    setLoadingPlatform('YouTube');
     const apiKey = 'AIzaSyD6SPkiwbkn2yGh4WkE-PmKbSlUd0NMNy0';
     const maxResults = 12;
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchQuery + " in depth product review")}&type=video&maxResults=${maxResults}&key=${apiKey}`;
-  
+
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        // console.log("YouTube API response:", data); // Log the data to check if you are getting it
-        history.push('/YouTubePage', { videoData: data.items, searchQuery }); // Corrected typo in history.push argument
+        history.push('/YouTubePage', { videoData: data.items, searchQuery });
       })
       .catch(error => {
         console.error("Error fetching YouTube videos:", error);
       })
       .finally(() => {
         setLoading(false);
+        setLoadingPlatform('');
       });
   };
-
-
-
-
 
   return (
     <>
       <main className="container">
         <header className="header-container">
           <h1 className="brand-name">clio</h1>
-          <Link to="/" className="search-button" >New Search</Link>
+          <Link to="/" className="search-button">New Search</Link>
         </header>
         <section className="main-title">Product Review Chat</section>
         <section className="image-section">
@@ -95,11 +92,10 @@ function ProductPage() {
           </form>
         </section>
         <p className="note">*click to see relevant reviews*</p>
-        {loading && <p>Loading...</p>}
         <ul>
           {videoUrls.map((url, index) => (
             <li key={index}>
-              <a href={url.substring(1, url.length-1)} target="_blank" rel="noopener noreferrer">
+              <a href={url.substring(1, url.length - 1)} target="_blank" rel="noopener noreferrer">
                 Video {index}
               </a>
             </li>
@@ -112,13 +108,14 @@ function ProductPage() {
               platform={platform}
               style={style}
               onClick={platform === 'Reddit' ? handleRedditButtonClick : platform === 'YouTube' ? handleYouTubeButtonClick : null}
+              isLoading={loading && loadingPlatform === platform}
             >
               {platform}
             </SocialMediaButton>
           ))}
         </nav>
       </main>
-      <style jsx = "true">{`
+      <style jsx>{`
         .container {
           background-color: #fff;
           display: flex;

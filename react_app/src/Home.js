@@ -30,7 +30,7 @@ function HomePage() {
     <>
       <main className="main">
         <section className="content">
-          <header className="header">QUETZAL</header>
+          <header className="header">CLIO</header>
           <h1 className="title">
             Any Product. Every Review.<br />
             One Platform.
