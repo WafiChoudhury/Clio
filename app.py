@@ -88,6 +88,7 @@ def handle_search_query():
     urls = video_urls(search_term)
     return jsonify({'videoUrls': urls})
 
+
 if __name__ == '__main__':
     app.run(debug=True)
 
