@@ -5,6 +5,7 @@ import Home from './Home';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ProductPage from './ProductPage';
 import RedditPage from './RedditPage';
+import YouTubePage from './YouTubePage';
 
 function App(){
   return(
@@ -21,6 +22,10 @@ function App(){
             </Route>
 
             <Route path="/RedditPage" component={RedditPage} />
+           
+            <Route exact path = "/YouTubePage">
+              <YouTubePage />
+            </Route>
 
           </Switch>
       </div>
