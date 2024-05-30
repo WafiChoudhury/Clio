@@ -35,16 +35,14 @@ function ProductPage() {
       });
   };
 
-  const handleNewSearch = () => {
-    fetch('http://localhost:8000/searchQueries/', { method: 'DELETE' });
-  };
+  
 
   return (
     <>
       <main className="container">
         <header className="header-container">
           <h1 className="brand-name">clio</h1>
-          <Link to="/" className="search-button" onClick={handleNewSearch}>New Search</Link>
+          <Link to="/" className="search-button" >New Search</Link>
         </header>
         <section className="main-title">Product Review Chat</section>
         <section className="image-section">

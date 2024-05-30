@@ -33,6 +33,27 @@ def handle_reddit_pages():
     return jsonify({'redditPages': reddit_pages})
 
 
+# def get_reddit_pages(query):
+#     try:
+#         # Perform Google search and get first four results
+#         search_results = list(search(query + " review reddit", num_results=4))
+#         print("Search results:", search_results)  # Log search results
+        
+#         # Filter out URLs that are Reddit pages
+#         reddit_pages = [url for url in search_results if "reddit.com" in url]
+#         print("Reddit pages:", reddit_pages)  # Log Reddit pages
+#         return reddit_pages
+#     except Exception as e:
+#         print("An error occurred:", str(e))
+#         return None
+
+# @app.route('/redditPages', methods=['POST'])
+# def handle_reddit_pages():
+#     data = request.json
+#     search_term = data['searchQuery']
+#     reddit_pages = get_reddit_pages(search_term)
+#     print("Returning reddit pages:", reddit_pages)  # Log returning data
+#     return jsonify({'redditPages': reddit_pages})
 
 
 
