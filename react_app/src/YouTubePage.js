@@ -9,6 +9,10 @@ function YouTubePage() {
   const goBack = () => {
     history.goBack();
   };
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
 
   return (
     <div className="youtube-page">
@@ -25,7 +29,8 @@ function YouTubePage() {
               <div className="thumbnail-container">
                 <img src={video.snippet.thumbnails.high.url} alt={video.snippet.title} className="thumbnail" />
                 <div className="video-details">
-                <p className="publish-date"> {formatDate(video.snippet.publishedAt)}</p>
+                {/* <p className="publish-date"> {formatDate(video.snippet.publishedAt)}</p> */}
+                <p className="click-to-watch">*click to watch*</p>
                 </div>
               </div>
               <h3 className="video-title">{video.snippet.title}</h3>
@@ -38,10 +43,14 @@ function YouTubePage() {
             
           padding-left: 100px;
           padding-right: 100px;
-          padding-bottom: 00px;
+          padding-bottom: 1000px;
         }
 
         .publish-date{
+            font: 600 24px Inter, sans-serif;
+        }
+
+        .click-to-watch{
             font: 600 24px Inter, sans-serif;
         }
 
@@ -78,7 +87,7 @@ function YouTubePage() {
        
         .video-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(4, 1fr);
           gap: 20px;
         }
 
