@@ -67,34 +67,5 @@ def handle_reddit_pages():
     return jsonify({'redditPages': reddit_pages})
 
 
-
-
-
-# YOUTUBE PAGE
-
-# def get_youtube_pages(query):
-#     try:
-#         # Perform Google search and get first four results
-#         search_results = search(query + "review reddit", num=4, stop=4, pause=2)
-        
-#         # Filter out URLs that are Reddit pages
-#         reddit_pages = [url for url in search_results if "reddit.com" in url]
-#         return reddit_pages
-#     except Exception as e:
-#         print("An error occurred:", str(e))
-#         return None
-
-# # Add this function to your existing Flask app
-
-# @app.route('/youtubePages', methods=['POST'])
-# def handle_reddit_pages():
-#     data = request.json
-#     search_term = data['searchQuery']
-#     youtube_pages = get_youtube_pages(search_term)
-#     return jsonify({'youtubePages': youtube_pages})
-
-
-
 if __name__ == '__main__':
     app.run(debug=True)
-
