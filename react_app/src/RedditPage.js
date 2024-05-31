@@ -1,107 +1,276 @@
+////////////////////////////////////////////////////// LIGHT MODE //////////////////////////////////////////////////////
+
+// import React, { useEffect, useState } from 'react';
+// import { useLocation, useHistory } from 'react-router-dom';
+
+// function RedditPage() {
+//   const location = useLocation();
+//   const history = useHistory();
+
+//   const defaultRedditPages = ['https://www.reddit.com/r/aww/comments/1e1a2c/cute_kittens_playing/'];
+//   const defaultSearchQuery = 'cute kittens';
+
+//   const { redditPages = defaultRedditPages, searchQuery = defaultSearchQuery } = location.state || {};
+
+//   const [embeds, setEmbeds] = useState([]);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     if (!location.state) {
+//       history.replace({
+//         pathname: location.pathname,
+//         state: {
+//           redditPages: defaultRedditPages,
+//           searchQuery: defaultSearchQuery,
+//         },
+//       });
+//     }
+
+//     const fetchEmbedData = async () => {
+//       const embedPromises = redditPages.map(async (url) => {
+//         try {
+//           const response = await fetch(`http://localhost:3001/oembed?url=${encodeURIComponent(url)}`);
+//           if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//           }
+//           const data = await response.json();
+//           if (data && data.html) {
+//             return data;
+//           } else {
+//             throw new Error('Invalid embed data');
+//           }
+//         } catch (error) {
+//           console.error('Error fetching embed data:', error);
+//           return { error: error.message };
+//         }
+//       });
+//       const embedData = await Promise.all(embedPromises);
+//       setEmbeds(embedData);
+//     };
+
+//     fetchEmbedData();
+//   }, [redditPages, location.state, history]);
+
+//   return (
+//     <div className="reddit-page">
+//       <div className="header">
+//         <button className="back-button" onClick={() => history.goBack()}>
+//           Back
+//         </button>
+//         <h1 className="title">Reddit Results for "{searchQuery}"</h1>
+//       </div>
+//       <div className="embed-grid">
+//         {error && <p>Error loading embeds: {error.message}</p>}
+//         {embeds.map((embed, index) => (
+//           embed.error ? (
+//             <p key={index}>Failed to load embed: {embed.error}</p>
+//           ) : (
+//             <div key={index} className="embed-item">
+//               <iframe
+//                 title={`Reddit Embed ${index}`}
+//                 srcDoc={embed.html}
+//                 style={{ width: '100%', height: '300px', border: 'none' }}
+//               />
+//             </div>
+//           )
+//         ))}
+//       </div>
+//       <style jsx>{`
+//         .reddit-page {
+//           padding: 20px 40px;
+//           background-color: #f9f9f9;
+//           min-height: 100vh;
+//         }
+
+//         .header {
+//           display: flex;
+//           align-items: center;
+//           justify-content: center;
+//           position: relative;
+//           margin-bottom: 20px;
+//         }
+
+//         .back-button {
+//           position: absolute;
+//           left: 20px;
+//           border-radius: 4px;
+//           padding: 8px 16px;
+//           font: 600 16px Inter, sans-serif;
+//           border: none;
+//           background-color: #ff4500;
+//           color: #fff;
+//           cursor: pointer;
+//         }
+
+//         .title {
+//           font-size: 24px;
+//           font: 600 24px Inter, sans-serif;
+//           color: #333;
+//         }
+
+//         .embed-grid {
+//           display: grid;
+//           grid-template-columns: repeat(3, 1fr);
+//           gap: 20px;
+//         }
+
+//         .embed-item {
+//           display: flex;
+//           flex-direction: column;
+//           align-items: flex-start;
+//           background-color: #fff;
+//           padding: 20px;
+//           border-radius: 8px;
+//           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+//         }
+//       `}</style>
+//     </div>
+//   );
+// }
+
+// export default RedditPage;
+
+
+////////////////////////////////////////////////////// DARK MODE //////////////////////////////////////////////////////
+
 import React, { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
-// Define the RedditPage component
 function RedditPage() {
-  // Hooks to access location and history for navigation and state management
   const location = useLocation();
   const history = useHistory();
 
-  // Default values for Reddit pages and search query
   const defaultRedditPages = ['https://www.reddit.com/r/aww/comments/1e1a2c/cute_kittens_playing/'];
   const defaultSearchQuery = 'cute kittens';
 
-  // Destructure redditPages and searchQuery from location.state, using defaults if not present
   const { redditPages = defaultRedditPages, searchQuery = defaultSearchQuery } = location.state || {};
 
-  // State to hold the embed data and any errors
   const [embeds, setEmbeds] = useState([]);
   const [error, setError] = useState(null);
 
-  // useEffect hook to perform actions when the component mounts or when dependencies change
   useEffect(() => {
-    // Check if location.state is not present
     if (!location.state) {
-      // Redirect to the current page with default state if location.state is missing
       history.replace({
         pathname: location.pathname,
         state: {
           redditPages: defaultRedditPages,
-          searchQuery: defaultSearchQuery
-        }
+          searchQuery: defaultSearchQuery,
+        },
       });
     }
 
-    // Function to fetch embed data for the Reddit pages
     const fetchEmbedData = async () => {
-      // Create an array of promises to fetch embed data for each Reddit page URL
       const embedPromises = redditPages.map(async (url) => {
         try {
-          // Fetch the embed data from the local server endpoint
           const response = await fetch(`http://localhost:3001/oembed?url=${encodeURIComponent(url)}`);
-          // Check if the response is not OK (status code not in the 200 range)
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          // Parse the response data as JSON
           const data = await response.json();
-          // Check if the data contains valid HTML for embedding
           if (data && data.html) {
             return data;
           } else {
             throw new Error('Invalid embed data');
           }
         } catch (error) {
-          // Log the error and return an object with the error message
           console.error('Error fetching embed data:', error);
           return { error: error.message };
         }
       });
-      // Wait for all promises to resolve and set the embed data state
       const embedData = await Promise.all(embedPromises);
       setEmbeds(embedData);
     };
 
-    // Call the function to fetch embed data
     fetchEmbedData();
   }, [redditPages, location.state, history]);
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div style={{ position: 'relative', textAlign: 'center' }}>
-      <button
-        onClick={() => history.goBack()}
-        style={{
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          padding: '10px',
-          fontSize: '16px',
-          cursor: 'pointer',
-          
-     
-        }}
-      >
-        Back
-      </button>
-      <h1>Reddit Results for "{searchQuery}"</h1>
-      {error && <p>Error loading embeds: {error.message}</p>}
-      {embeds.map((embed, index) => (
-        // If there was an error fetching the embed, display an error message
-        embed.error ? (
-          <p key={index}>Failed to load embed: {embed.error}</p>
-        ) : (
-          // Otherwise, display the embed HTML inside an iframe
-          <div key={index}>
-            <iframe
-              title={`Reddit Embed ${index}`}
-              srcDoc={embed.html}
-              style={{ width: '100%', height: '300px', border: 'none' }}
-            />
-          </div>
-        )
-      ))}
+    <div className="reddit-page">
+      <div className="header">
+        <button className="back-button" onClick={() => history.goBack()}>
+          Back
+        </button>
+        <h1 className="title">Reddit Results for "{searchQuery}"</h1>
+      </div>
+      <div className="embed-grid">
+        {error && <p>Error loading embeds: {error.message}</p>}
+        {embeds.map((embed, index) => (
+          embed.error ? (
+            <p key={index}>Failed to load embed: {embed.error}</p>
+          ) : (
+            <div key={index} className="embed-item">
+              <iframe
+                title={`Reddit Embed ${index}`}
+                srcDoc={embed.html}
+                style={{ width: '100%', height: '400px', border: 'none' }}
+              />
+            </div>
+          )
+        ))}
+      </div>
+      <style jsx>{`
+        .reddit-page {
+          padding: 20px 40px;
+          background-color: #121212;
+          color: #e0e0e0;
+          min-height: 100vh;
+        }
+
+        .header {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          margin-bottom: 20px;
+        }
+
+        .back-button {
+          position: absolute;
+          left: 20px;
+          border-radius: 4px;
+          padding: 8px 16px;
+          font: 600 16px Inter, sans-serif;
+          border: none;
+          background-color: #bb86fc;
+          color: #121212;
+          cursor: pointer;
+        }
+
+        .title {
+          font-size: 24px;
+          font: 600 24px Inter, sans-serif;
+          color: #e0e0e0;
+        }
+
+        .embed-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+
+        .embed-item {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          background-color: #1e1e1e;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+          height: 340px;
+        }
+
+        iframe {
+          background-color: #1e1e1e;
+          border: none;
+        }
+      `}</style>
     </div>
   );
 }
 
 export default RedditPage;
+
