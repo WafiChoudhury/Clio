@@ -48,7 +48,7 @@ def handle_search_query():
 def get_reddit_pages(query):
     try:
         # Perform Google search and get first four results
-        search_results = search(query + "review reddit", num=4, stop=4, pause=2)
+        search_results = search(query + "review reddit", num=6, stop=6, pause=2)
         
         # Filter out URLs that are Reddit pages
         reddit_pages = [url for url in search_results if "reddit.com" in url]
