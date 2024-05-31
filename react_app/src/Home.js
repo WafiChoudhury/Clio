@@ -320,8 +320,8 @@ function HomePage() {
           display: block;
           justify-content: center;
           align-items: center;
-          border-radius: 8px;
-          background-color: #343434;
+          border-radius: 50px;
+          background-color: #373737;
           color: #fff;
           white-space: nowrap;
           padding: 8px 16px;
@@ -330,6 +330,7 @@ function HomePage() {
           cursor: pointer;
           font-weight: bold;
         }
+
         @media (max-width: 991px) {
           .search-button {
             white-space: initial;
@@ -346,6 +347,12 @@ function HomePage() {
           clip: rect(0, 0, 0, 0);
           border: 0;
         }
+
+
+        .search-button:hover {
+          background-color: #939393;
+        }
+
       `}</style>
     </>
   );
