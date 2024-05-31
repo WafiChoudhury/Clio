@@ -321,13 +321,14 @@ function HomePage() {
           justify-content: center;
           align-items: center;
           border-radius: 8px;
-          background-color: #000;
+          background-color: #343434;
           color: #fff;
           white-space: nowrap;
           padding: 8px 16px;
           font-size: 16px;
           font-family: 'Inter', sans-serif;
           cursor: pointer;
+          font-weight: bold;
         }
         @media (max-width: 991px) {
           .search-button {

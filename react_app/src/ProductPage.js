@@ -337,7 +337,7 @@ function ProductPage() {
     setLoading(true);
     setLoadingPlatform('YouTube');
     const apiKey = 'AIzaSyD6SPkiwbkn2yGh4WkE-PmKbSlUd0NMNy0';
-    const maxResults = 12;
+    const maxResults = 9;
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchQuery + " in depth product review")}&type=video&maxResults=${maxResults}&key=${apiKey}`;
 
     fetch(url)
