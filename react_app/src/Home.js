@@ -211,7 +211,7 @@ function HomePage() {
     <>
       <main className="main">
         <section className="content">
-          <header className="header">CLIO</header>
+          <header className="header">clio</header>
           <h1 className="title">
             Any Product. Every Review.<br />
             One Platform.
