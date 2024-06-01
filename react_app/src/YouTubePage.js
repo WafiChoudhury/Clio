@@ -2,9 +2,9 @@ import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
 function YouTubePage() {
-  const { videoData, searchQuery } = useLocation().state || { videoData: [], searchQuery: '' };
+  const { youtube_videoData, searchQuery } = useLocation().state || { youtube_videoData: [], searchQuery: '' };
   const history = useHistory();
-  console.log(videoData);
+  console.log(youtube_videoData);
 
   const goBack = () => {
     history.goBack();
@@ -23,7 +23,7 @@ function YouTubePage() {
         <h1 className="title">YouTube {searchQuery} Reviews</h1>
       </div>
       <div className="video-grid">
-        {videoData.map((video, index) => (
+        {youtube_videoData.map((video, index) => (
           <div key={index} className="video-item">
             <div className="thumbnail-container">
               <iframe
