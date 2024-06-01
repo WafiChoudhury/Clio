@@ -192,20 +192,45 @@ function HomePage() {
     const queryObject = { searchQuery };
     setIsPending(true);
 
+
+    const yt_apiKey = 'AIzaSyD6SPkiwbkn2yGh4WkE-PmKbSlUd0NMNy0';
+    const yt_maxResults = 9;
+    const yt_url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchQuery + " in depth product review")}&type=video&maxResults=${yt_maxResults}&key=${yt_apiKey}`;
+
+
+  Promise.all([
+    //TIKTOK
     fetch('http://127.0.0.1:5000/searchQueries', {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(queryObject)
+    }).then(response => response.json()),
+
+    // YOUTUBE
+    fetch(yt_url).then(response => response.json()),
+
+    //REDDIT
+    fetch('http://127.0.0.1:5000/redditPages', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ searchQuery })
     }).then(response => response.json())
-      .then(data => {
-        setIsPending(false);
-        history.push('/ProductPage', { videoUrls: data.videoUrls, searchQuery });
-      })
-      .catch(error => {
-        console.error("Error fetching video URLs:", error);
-        setIsPending(false);
-      });
-  };
+
+
+  ]).then(([tiktokData, youtubeData, redditData]) => {
+    setIsPending(false);
+    history.push('/ProductPage', { 
+      videoUrls: tiktokData.videoUrls, 
+      searchQuery, 
+      youtube_videoData: youtubeData.items ,
+      redditPages: redditData.redditPages
+
+    });
+  }).catch(error => {
+    console.error("Error fetching data:", error);
+    setIsPending(false);
+  });
+};
 
   return (
     <>
@@ -320,7 +345,7 @@ function HomePage() {
           display: block;
           justify-content: center;
           align-items: center;
-          border-radius: 50px;
+          border-radius: 10px;
           background-color: #373737;
           color: #fff;
           white-space: nowrap;

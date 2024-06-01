@@ -301,7 +301,8 @@ function SocialMediaButton({ platform, style, children, onClick, isLoading }) {
 function ProductPage() {
   const location = useLocation();
   const history = useHistory();
-  const { videoUrls, searchQuery } = location.state || { videoUrls: [], searchQuery: '' };
+  const defaultRedditPages = ['https://www.reddit.com/r/aww/comments/1e1a2c/cute_kittens_playing/'];
+  const { videoUrls, searchQuery, youtube_videoData, redditPages} = location.state || { videoUrls: [], searchQuery: '', youtube_videoData: [], redditPages: defaultRedditPages };
 
   const [loading, setLoading] = useState(false);
   const [loadingPlatform, setLoadingPlatform] = useState('');
@@ -316,42 +317,18 @@ function ProductPage() {
   const handleRedditButtonClick = () => {
     setLoading(true);
     setLoadingPlatform('Reddit');
-    fetch('http://127.0.0.1:5000/redditPages', {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ searchQuery })
-    }).then(response => response.json())
-      .then(data => {
-        history.push('/RedditPage', { redditPages: data.redditPages, searchQuery });
-      })
-      .catch(error => {
-        console.error("Error fetching Reddit pages:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-        setLoadingPlatform('');
-      });
+    history.push('/RedditPage', { redditPages , searchQuery });
+    setLoading(false);
+    setLoadingPlatform('');
   };
 
   const handleYouTubeButtonClick = () => {
+    console.log(youtube_videoData);
     setLoading(true);
     setLoadingPlatform('YouTube');
-    const apiKey = 'AIzaSyD6SPkiwbkn2yGh4WkE-PmKbSlUd0NMNy0';
-    const maxResults = 9;
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchQuery + " in depth product review")}&type=video&maxResults=${maxResults}&key=${apiKey}`;
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        history.push('/YouTubePage', { videoData: data.items, searchQuery });
-      })
-      .catch(error => {
-        console.error("Error fetching YouTube videos:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-        setLoadingPlatform('');
-      });
+    history.push('/YouTubePage', { youtube_videoData , searchQuery });
+    setLoading(false);
+    setLoadingPlatform('');
   };
 
   return (
