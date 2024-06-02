@@ -9,15 +9,15 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 
-
-
+def tik_tok_scrape(search_term):
+    return
 
 
 def video_urls(search_term):
     root = "https://www.ensembledata.com/apis"
     endpoint = "/tt/keyword/search"
     params = {
-        "name": search_term +"review",
+        "name": search_term + "review",
         "cursor": 0,
         "period": 1,
         "sorting": 0,
@@ -32,9 +32,12 @@ def video_urls(search_term):
 
     video_urls = []
     for i in range(len(loaded['data']['data'])):
-        data = json.dumps(res.json()['data']['data'][i]['aweme_info']['video']['play_addr']['url_list'][0])
+        print(loaded['data'])
+        data = json.dumps(
+            res.json()['data']['data'][i]['aweme_info']['video']['play_addr']['url_list'][0])
         video_urls.append(data)
     return video_urls
+
 
 @app.route('/searchQueries', methods=['POST'])
 def handle_search_query():
@@ -44,12 +47,12 @@ def handle_search_query():
     return jsonify({'videoUrls': urls})
 
 
-
 def get_reddit_pages(query):
     try:
         # Perform Google search and get first four results
-        search_results = search(query + "review reddit", num=6, stop=6, pause=2)
-        
+        search_results = search(query + "review reddit",
+                                num=6, stop=6, pause=2)
+
         # Filter out URLs that are Reddit pages
         reddit_pages = [url for url in search_results if "reddit.com" in url]
         return reddit_pages
@@ -59,16 +62,22 @@ def get_reddit_pages(query):
 
 # Add this function to your existing Flask app
 
+
+@app.route('/TikTokPages', methods=['POST'])
+def handle_TikTok_pages():
+    data = request.json
+    search_term = data['searchQuery']
+    print(search_term)
+    tiktok_pages = video_urls(search_term)
+    return jsonify({'TikTok_data': tiktok_pages})
+
+
 @app.route('/redditPages', methods=['POST'])
 def handle_reddit_pages():
     data = request.json
     search_term = data['searchQuery']
     reddit_pages = get_reddit_pages(search_term)
     return jsonify({'redditPages': reddit_pages})
-
-
-
-
 
 
 if __name__ == '__main__':

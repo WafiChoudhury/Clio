@@ -302,7 +302,7 @@ function ProductPage() {
   const location = useLocation();
   const history = useHistory();
   const defaultRedditPages = ['https://www.reddit.com/r/aww/comments/1e1a2c/cute_kittens_playing/'];
-  const { videoUrls, searchQuery, youtube_videoData, redditPages} = location.state || { videoUrls: [], searchQuery: '', youtube_videoData: [], redditPages: defaultRedditPages };
+  const { videoUrls, searchQuery, youtube_videoData, redditPages, TikTok_data } = location.state || { videoUrls: [], searchQuery: '', youtube_videoData: [], redditPages: defaultRedditPages, };
 
   const [loading, setLoading] = useState(false);
   const [loadingPlatform, setLoadingPlatform] = useState('');
@@ -317,7 +317,7 @@ function ProductPage() {
   const handleRedditButtonClick = () => {
     setLoading(true);
     setLoadingPlatform('Reddit');
-    history.push('/RedditPage', { redditPages , searchQuery });
+    history.push('/RedditPage', { redditPages, searchQuery });
     setLoading(false);
     setLoadingPlatform('');
   };
@@ -326,63 +326,77 @@ function ProductPage() {
     console.log(youtube_videoData);
     setLoading(true);
     setLoadingPlatform('YouTube');
-    history.push('/YouTubePage', { youtube_videoData , searchQuery });
+    history.push('/YouTubePage', { youtube_videoData, searchQuery });
     setLoading(false);
     setLoadingPlatform('');
   };
 
+  const handleTikTokButtonClick = () => {
+    setLoading(true);
+    setLoadingPlatform('YouTube');
+    history.push('/TikTokPage', { videoUrls, searchQuery });
+    setLoading(false);
+    setLoadingPlatform('');
+  };
+
+
   return (
 
-<>
-  <main className="container">
-    <header className="header-container">
-      <h1 className="brand-name">clio</h1>
-      <Link to="/" className="search-button">New Search</Link>
-    </header>
-    <section className="main-title">Product Review Chat</section>
-    <section className="image-section">
-      <img
-        loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/d770e23974f6f528456e616db7d08c3c605855e4e366a61c7de833a158b9869d?apiKey=a0ea03fcb4e743349d55abe05436b2de&"
-        className="main-image"
-        alt="Product reviews chat background"
-      />
-      <form className="image-form">
-        <label htmlFor="ask" className="visually-hidden">Ask here</label>
-        <input className="form-input" id="ask" type="text" placeholder="Ask here" aria-label="Ask here" />
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/9b9fa999cb97bbffef7750031558352563f9d949ba036c518e6bdf4423ac66bf?apiKey=a0ea03fcb4e743349d55abe05436b2de&"
-          className="form-image"
-          alt="Submit question"
-        />
-      </form>
-    </section>
-    <p className="note">*click to see relevant reviews*</p>
-    <ul>
-      {videoUrls.map((url, index) => (
-        <li key={index}>
-          <a href={url.substring(1, url.length - 1)} target="_blank" rel="noopener noreferrer">
-            Video {index}
-          </a>
-        </li>
-      ))}
-    </ul>
-    <nav className="platforms-container">
-      {platforms.map(({ platform, style }) => (
-        <SocialMediaButton
-          key={platform}
-          platform={platform}
-          style={style}
-          onClick={platform === 'Reddit' ? handleRedditButtonClick : platform === 'YouTube' ? handleYouTubeButtonClick : null}
-          isLoading={loading && loadingPlatform === platform}
-        >
-          {platform}
-        </SocialMediaButton>
-      ))}
-    </nav>
-  </main>
-  <style jsx>{`
+    <>
+      <main className="container">
+        <header className="header-container">
+          <h1 className="brand-name">clio</h1>
+          <Link to="/" className="search-button">New Search</Link>
+        </header>
+        <section className="main-title">Product Review Chat</section>
+        <section className="image-section">
+          <img
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/d770e23974f6f528456e616db7d08c3c605855e4e366a61c7de833a158b9869d?apiKey=a0ea03fcb4e743349d55abe05436b2de&"
+            className="main-image"
+            alt="Product reviews chat background"
+          />
+          <form className="image-form">
+            <label htmlFor="ask" className="visually-hidden">Ask here</label>
+            <input className="form-input" id="ask" type="text" placeholder="Ask here" aria-label="Ask here" />
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/9b9fa999cb97bbffef7750031558352563f9d949ba036c518e6bdf4423ac66bf?apiKey=a0ea03fcb4e743349d55abe05436b2de&"
+              className="form-image"
+              alt="Submit question"
+            />
+          </form>
+        </section>
+        {/* <p className="note">*click to see relevant reviews*</p>
+        <ul>
+          {videoUrls.map((url, index) => (
+            <li key={index}>
+              <a href={url.substring(1, url.length - 1)} target="_blank" rel="noopener noreferrer">
+                Video {index}
+              </a>
+            </li>
+          ))}
+        </ul> */}
+        <nav className="platforms-container">
+          {platforms.map(({ platform, style }) => (
+            <SocialMediaButton
+              key={platform}
+              platform={platform}
+              style={style}
+              onClick={
+                platform === 'Reddit' ? handleRedditButtonClick :
+                  platform === 'YouTube' ? handleYouTubeButtonClick :
+                    platform === 'TikTok' ? handleTikTokButtonClick :
+                      null
+              }
+              isLoading={loading && loadingPlatform === platform}
+            >
+              {platform}
+            </SocialMediaButton>
+          ))}
+        </nav>
+      </main>
+      <style jsx>{`
     .container {
       background-color: #121212;
       color: #ffffff;

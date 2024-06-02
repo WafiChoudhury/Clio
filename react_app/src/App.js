@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ProductPage from './ProductPage';
 import RedditPage from './RedditPage';
 import YouTubePage from './YouTubePage';
+import TikTokPage from './TikTokPage';
 
 function App(){
   return(
@@ -22,7 +23,8 @@ function App(){
             </Route>
 
             <Route path="/RedditPage" component={RedditPage} />
-           
+            <Route path="/TikTokPage" component={TikTokPage} />
+
             <Route exact path = "/YouTubePage">
               <YouTubePage />
             </Route>
