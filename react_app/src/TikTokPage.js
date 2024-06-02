@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
 function TikTokPage() {
-    const { tiktokPages = [], videoUrls, searchQuery } = useLocation().state || { videoUrls: [], searchQuery: '' };
+    const { videoUrls, searchQuery } = useLocation().state || { videoUrls: [], searchQuery: '' };
     const history = useHistory();
     const [embeds, setEmbeds] = useState([]);
     const location = useLocation();
@@ -12,6 +12,7 @@ function TikTokPage() {
         history.goBack();
     };
 
+    
     // useEffect(() => {
 
     //     const fetchEmbedData = async () => {
@@ -55,14 +56,15 @@ function TikTokPage() {
                 <button className="back-button" onClick={goBack}>
                     Back
                 </button>
-                <h1 className="title">YouTube {searchQuery} Reviews</h1>
+                <h1 className="title">TikTok {searchQuery} Reviews</h1>
             </div>
             <div className="video-grid">
                 {videoUrls.map((video, index) => (
+                    
                     <div key={index} className="video-item">
                         <div className="thumbnail-container">
                             <iframe
-                                src={sanitizeUrl(video)}
+                                src={`https://www.tiktok.com/embed/${video}`}
                                 frameBorder="0"
                                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
@@ -117,7 +119,7 @@ function TikTokPage() {
 
         .video-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(5, 1fr);
           gap: 20px;
         }
 
@@ -135,7 +137,7 @@ function TikTokPage() {
           position: relative;
           width: 100%;
           padding-bottom: 56.25%; /* 16:9 aspect ratio */
-          height: 0;
+          height: 450px;
           overflow: hidden;
         }
 
