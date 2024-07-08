@@ -18,9 +18,12 @@ ______________________________
 - python3 app.py
 
 **Terminal 2**
+- cd react_app
+- npm install
 - npm run server_bundle_start
   
 **Terminal 3**
+- cd react_app
 - npm start
 
 # Webpage setup:
